@@ -1,0 +1,538 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="citas">
+          <Key>
+            <PropertyRef Name="idCita" />
+          </Key>
+          <Property Name="idCita" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idPaciente" Type="nvarchar" MaxLength="128" />
+          <Property Name="idDoctor" Type="nvarchar" MaxLength="128" />
+          <Property Name="fecha" Type="datetime" />
+          <Property Name="idTipoCita" Type="int" />
+          <Property Name="aviso" Type="int" />
+          <Property Name="idSala" Type="int" />
+          <Property Name="estado" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="doctores">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="idEspecialidad" Type="int" />
+          <Property Name="nombres" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="especialidades">
+          <Key>
+            <PropertyRef Name="idEspecialidad" />
+          </Key>
+          <Property Name="idEspecialidad" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" />
+          <Property Name="estado" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="horarios">
+          <Key>
+            <PropertyRef Name="idHorario" />
+          </Key>
+          <Property Name="idHorario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id" Type="nvarchar" MaxLength="128" />
+          <Property Name="idHora" Type="int" />
+          <Property Name="lunes" Type="char" MaxLength="1" />
+          <Property Name="martes" Type="char" MaxLength="1" />
+          <Property Name="miercoles" Type="char" MaxLength="1" />
+          <Property Name="jueves" Type="char" MaxLength="1" />
+          <Property Name="viernes" Type="char" MaxLength="1" />
+          <Property Name="sabado" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="horas">
+          <Key>
+            <PropertyRef Name="idHora" />
+          </Key>
+          <Property Name="idHora" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="desHora" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="pacientes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="fecha_nacimiento" Type="datetime" />
+          <Property Name="dni" Type="varchar" MaxLength="12" />
+          <Property Name="nombres" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="salas">
+          <Key>
+            <PropertyRef Name="idSala" />
+          </Key>
+          <Property Name="idSala" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="200" />
+          <Property Name="desurl" Type="varchar" MaxLength="200" />
+          <Property Name="codigo" Type="varchar" MaxLength="200" />
+          <Property Name="clave" Type="varchar" MaxLength="200" />
+          <Property Name="estado" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="tipocitas">
+          <Key>
+            <PropertyRef Name="idTipoCita" />
+          </Key>
+          <Property Name="idTipoCita" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <Association Name="FK__citas__idDoctor__7C4F7684">
+          <End Role="doctores" Type="Self.doctores" Multiplicity="0..1" />
+          <End Role="citas" Type="Self.citas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="doctores">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="citas">
+              <PropertyRef Name="idDoctor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__citas__idPacient__7B5B524B">
+          <End Role="pacientes" Type="Self.pacientes" Multiplicity="0..1" />
+          <End Role="citas" Type="Self.citas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="pacientes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="citas">
+              <PropertyRef Name="idPaciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__citas__idSala__7E37BEF6">
+          <End Role="salas" Type="Self.salas" Multiplicity="0..1" />
+          <End Role="citas" Type="Self.citas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="salas">
+              <PropertyRef Name="idSala" />
+            </Principal>
+            <Dependent Role="citas">
+              <PropertyRef Name="idSala" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__citas__idTipoCit__7D439ABD">
+          <End Role="tipocitas" Type="Self.tipocitas" Multiplicity="0..1" />
+          <End Role="citas" Type="Self.citas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tipocitas">
+              <PropertyRef Name="idTipoCita" />
+            </Principal>
+            <Dependent Role="citas">
+              <PropertyRef Name="idTipoCita" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__doctores__idEspe__49C3F6B7">
+          <End Role="especialidades" Type="Self.especialidades" Multiplicity="0..1" />
+          <End Role="doctores" Type="Self.doctores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="especialidades">
+              <PropertyRef Name="idEspecialidad" />
+            </Principal>
+            <Dependent Role="doctores">
+              <PropertyRef Name="idEspecialidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__horarios__id__6383C8BA">
+          <End Role="doctores" Type="Self.doctores" Multiplicity="0..1" />
+          <End Role="horarios" Type="Self.horarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="doctores">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="horarios">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__horarios__idHora__6477ECF3">
+          <End Role="horas" Type="Self.horas" Multiplicity="0..1" />
+          <End Role="horarios" Type="Self.horarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="horas">
+              <PropertyRef Name="idHora" />
+            </Principal>
+            <Dependent Role="horarios">
+              <PropertyRef Name="idHora" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="citas" EntityType="Self.citas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="doctores" EntityType="Self.doctores" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="especialidades" EntityType="Self.especialidades" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="horarios" EntityType="Self.horarios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="horas" EntityType="Self.horas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="pacientes" EntityType="Self.pacientes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="salas" EntityType="Self.salas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tipocitas" EntityType="Self.tipocitas" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__citas__idDoctor__7C4F7684" Association="Self.FK__citas__idDoctor__7C4F7684">
+            <End Role="doctores" EntitySet="doctores" />
+            <End Role="citas" EntitySet="citas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__citas__idPacient__7B5B524B" Association="Self.FK__citas__idPacient__7B5B524B">
+            <End Role="pacientes" EntitySet="pacientes" />
+            <End Role="citas" EntitySet="citas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__citas__idSala__7E37BEF6" Association="Self.FK__citas__idSala__7E37BEF6">
+            <End Role="salas" EntitySet="salas" />
+            <End Role="citas" EntitySet="citas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__citas__idTipoCit__7D439ABD" Association="Self.FK__citas__idTipoCit__7D439ABD">
+            <End Role="tipocitas" EntitySet="tipocitas" />
+            <End Role="citas" EntitySet="citas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__doctores__idEspe__49C3F6B7" Association="Self.FK__doctores__idEspe__49C3F6B7">
+            <End Role="especialidades" EntitySet="especialidades" />
+            <End Role="doctores" EntitySet="doctores" />
+          </AssociationSet>
+          <AssociationSet Name="FK__horarios__id__6383C8BA" Association="Self.FK__horarios__id__6383C8BA">
+            <End Role="doctores" EntitySet="doctores" />
+            <End Role="horarios" EntitySet="horarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK__horarios__idHora__6477ECF3" Association="Self.FK__horarios__idHora__6477ECF3">
+            <End Role="horas" EntitySet="horas" />
+            <End Role="horarios" EntitySet="horarios" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="doctore">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="idEspecialidad" Type="Int32" />
+          <NavigationProperty Name="especialidade" Relationship="Self.FK__doctores__idEspe__49C3F6B7" FromRole="doctores" ToRole="especialidades" />
+          <NavigationProperty Name="horarios" Relationship="Model.FK__horarios__id__6383C8BA" FromRole="doctore" ToRole="horario" />
+          <NavigationProperty Name="citas" Relationship="Model.FK__citas__idDoctor__7C4F7684" FromRole="doctore" ToRole="cita" />
+          <Property Name="nombres" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="especialidade">
+          <Key>
+            <PropertyRef Name="idEspecialidad" />
+          </Key>
+          <Property Name="idEspecialidad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="doctores" Relationship="Self.FK__doctores__idEspe__49C3F6B7" FromRole="especialidades" ToRole="doctores" />
+        </EntityType>
+        <Association Name="FK__doctores__idEspe__49C3F6B7">
+          <End Role="especialidades" Type="Self.especialidade" Multiplicity="0..1" />
+          <End Role="doctores" Type="Self.doctore" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="especialidades">
+              <PropertyRef Name="idEspecialidad" />
+            </Principal>
+            <Dependent Role="doctores">
+              <PropertyRef Name="idEspecialidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="doctores" EntityType="Self.doctore" />
+          <EntitySet Name="especialidades" EntityType="Self.especialidade" />
+          <AssociationSet Name="FK__doctores__idEspe__49C3F6B7" Association="Self.FK__doctores__idEspe__49C3F6B7">
+            <End Role="especialidades" EntitySet="especialidades" />
+            <End Role="doctores" EntitySet="doctores" />
+          </AssociationSet>
+          <EntitySet Name="horas" EntityType="Model.hora" />
+          <EntitySet Name="horarios" EntityType="Model.horario" />
+          <AssociationSet Name="FK__horarios__id__6383C8BA" Association="Model.FK__horarios__id__6383C8BA">
+            <End Role="doctore" EntitySet="doctores" />
+            <End Role="horario" EntitySet="horarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK__horarios__idHora__6477ECF3" Association="Model.FK__horarios__idHora__6477ECF3">
+            <End Role="hora" EntitySet="horas" />
+            <End Role="horario" EntitySet="horarios" />
+          </AssociationSet>
+          <EntitySet Name="citas" EntityType="Model.cita" />
+          <EntitySet Name="pacientes" EntityType="Model.paciente" />
+          <EntitySet Name="salas" EntityType="Model.sala" />
+          <EntitySet Name="tipocitas" EntityType="Model.tipocita" />
+          <AssociationSet Name="FK__citas__idDoctor__7C4F7684" Association="Model.FK__citas__idDoctor__7C4F7684">
+            <End Role="doctore" EntitySet="doctores" />
+            <End Role="cita" EntitySet="citas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__citas__idPacient__7B5B524B" Association="Model.FK__citas__idPacient__7B5B524B">
+            <End Role="paciente" EntitySet="pacientes" />
+            <End Role="cita" EntitySet="citas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__citas__idSala__7E37BEF6" Association="Model.FK__citas__idSala__7E37BEF6">
+            <End Role="sala" EntitySet="salas" />
+            <End Role="cita" EntitySet="citas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__citas__idTipoCit__7D439ABD" Association="Model.FK__citas__idTipoCit__7D439ABD">
+            <End Role="tipocita" EntitySet="tipocitas" />
+            <End Role="cita" EntitySet="citas" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="hora">
+          <Key>
+            <PropertyRef Name="idHora" />
+          </Key>
+          <Property Name="idHora" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="desHora" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="horarios" Relationship="Model.FK__horarios__idHora__6477ECF3" FromRole="hora" ToRole="horario" />
+        </EntityType>
+        <EntityType Name="horario">
+          <Key>
+            <PropertyRef Name="idHorario" />
+          </Key>
+          <Property Name="idHorario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="idHora" Type="Int32" />
+          <Property Name="lunes" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="martes" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="miercoles" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="jueves" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="viernes" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="sabado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="doctore" Relationship="Model.FK__horarios__id__6383C8BA" FromRole="horario" ToRole="doctore" />
+          <NavigationProperty Name="hora" Relationship="Model.FK__horarios__idHora__6477ECF3" FromRole="horario" ToRole="hora" />
+        </EntityType>
+        <Association Name="FK__horarios__id__6383C8BA">
+          <End Type="Model.doctore" Role="doctore" Multiplicity="0..1" />
+          <End Type="Model.horario" Role="horario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="doctore">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="horario">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__horarios__idHora__6477ECF3">
+          <End Type="Model.hora" Role="hora" Multiplicity="0..1" />
+          <End Type="Model.horario" Role="horario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hora">
+              <PropertyRef Name="idHora" />
+            </Principal>
+            <Dependent Role="horario">
+              <PropertyRef Name="idHora" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="cita">
+          <Key>
+            <PropertyRef Name="idCita" />
+          </Key>
+          <Property Name="idCita" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idPaciente" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="idDoctor" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="fecha" Type="DateTime" Precision="3" />
+          <Property Name="idTipoCita" Type="Int32" />
+          <Property Name="aviso" Type="Int32" />
+          <Property Name="idSala" Type="Int32" />
+          <Property Name="estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="doctore" Relationship="Model.FK__citas__idDoctor__7C4F7684" FromRole="cita" ToRole="doctore" />
+          <NavigationProperty Name="paciente" Relationship="Model.FK__citas__idPacient__7B5B524B" FromRole="cita" ToRole="paciente" />
+          <NavigationProperty Name="sala" Relationship="Model.FK__citas__idSala__7E37BEF6" FromRole="cita" ToRole="sala" />
+          <NavigationProperty Name="tipocita" Relationship="Model.FK__citas__idTipoCit__7D439ABD" FromRole="cita" ToRole="tipocita" />
+        </EntityType>
+        <EntityType Name="paciente">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="fecha_nacimiento" Type="DateTime" Precision="3" />
+          <Property Name="dni" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="citas" Relationship="Model.FK__citas__idPacient__7B5B524B" FromRole="paciente" ToRole="cita" />
+          <Property Name="nombres" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="sala">
+          <Key>
+            <PropertyRef Name="idSala" />
+          </Key>
+          <Property Name="idSala" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="desurl" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="codigo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="clave" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="citas" Relationship="Model.FK__citas__idSala__7E37BEF6" FromRole="sala" ToRole="cita" />
+        </EntityType>
+        <EntityType Name="tipocita">
+          <Key>
+            <PropertyRef Name="idTipoCita" />
+          </Key>
+          <Property Name="idTipoCita" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="citas" Relationship="Model.FK__citas__idTipoCit__7D439ABD" FromRole="tipocita" ToRole="cita" />
+        </EntityType>
+        <Association Name="FK__citas__idDoctor__7C4F7684">
+          <End Type="Model.doctore" Role="doctore" Multiplicity="0..1" />
+          <End Type="Model.cita" Role="cita" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="doctore">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cita">
+              <PropertyRef Name="idDoctor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__citas__idPacient__7B5B524B">
+          <End Type="Model.paciente" Role="paciente" Multiplicity="0..1" />
+          <End Type="Model.cita" Role="cita" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paciente">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cita">
+              <PropertyRef Name="idPaciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__citas__idSala__7E37BEF6">
+          <End Type="Model.sala" Role="sala" Multiplicity="0..1" />
+          <End Type="Model.cita" Role="cita" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sala">
+              <PropertyRef Name="idSala" />
+            </Principal>
+            <Dependent Role="cita">
+              <PropertyRef Name="idSala" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__citas__idTipoCit__7D439ABD">
+          <End Type="Model.tipocita" Role="tipocita" Multiplicity="0..1" />
+          <End Type="Model.cita" Role="cita" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tipocita">
+              <PropertyRef Name="idTipoCita" />
+            </Principal>
+            <Dependent Role="cita">
+              <PropertyRef Name="idTipoCita" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="doctores">
+            <EntityTypeMapping TypeName="Model.doctore">
+              <MappingFragment StoreEntitySet="doctores">
+                <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idEspecialidad" ColumnName="idEspecialidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="especialidades">
+            <EntityTypeMapping TypeName="Model.especialidade">
+              <MappingFragment StoreEntitySet="especialidades">
+                <ScalarProperty Name="idEspecialidad" ColumnName="idEspecialidad" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="horas">
+            <EntityTypeMapping TypeName="Model.hora">
+              <MappingFragment StoreEntitySet="horas">
+                <ScalarProperty Name="desHora" ColumnName="desHora" />
+                <ScalarProperty Name="idHora" ColumnName="idHora" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="horarios">
+            <EntityTypeMapping TypeName="Model.horario">
+              <MappingFragment StoreEntitySet="horarios">
+                <ScalarProperty Name="sabado" ColumnName="sabado" />
+                <ScalarProperty Name="viernes" ColumnName="viernes" />
+                <ScalarProperty Name="jueves" ColumnName="jueves" />
+                <ScalarProperty Name="miercoles" ColumnName="miercoles" />
+                <ScalarProperty Name="martes" ColumnName="martes" />
+                <ScalarProperty Name="lunes" ColumnName="lunes" />
+                <ScalarProperty Name="idHora" ColumnName="idHora" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idHorario" ColumnName="idHorario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="citas">
+            <EntityTypeMapping TypeName="Model.cita">
+              <MappingFragment StoreEntitySet="citas">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="idSala" ColumnName="idSala" />
+                <ScalarProperty Name="aviso" ColumnName="aviso" />
+                <ScalarProperty Name="idTipoCita" ColumnName="idTipoCita" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="idDoctor" ColumnName="idDoctor" />
+                <ScalarProperty Name="idPaciente" ColumnName="idPaciente" />
+                <ScalarProperty Name="idCita" ColumnName="idCita" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="pacientes">
+            <EntityTypeMapping TypeName="Model.paciente">
+              <MappingFragment StoreEntitySet="pacientes">
+                <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="dni" ColumnName="dni" />
+                <ScalarProperty Name="fecha_nacimiento" ColumnName="fecha_nacimiento" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="salas">
+            <EntityTypeMapping TypeName="Model.sala">
+              <MappingFragment StoreEntitySet="salas">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="codigo" ColumnName="codigo" />
+                <ScalarProperty Name="desurl" ColumnName="desurl" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="idSala" ColumnName="idSala" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tipocitas">
+            <EntityTypeMapping TypeName="Model.tipocita">
+              <MappingFragment StoreEntitySet="tipocitas">
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="idTipoCita" ColumnName="idTipoCita" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

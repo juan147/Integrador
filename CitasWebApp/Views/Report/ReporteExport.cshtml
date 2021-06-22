@@ -1,0 +1,333 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css2")
+    <title>ReporteExport</title>
+</head>
+<body>
+    <div>
+        <div class="col-sm-10 col-xs-12 content pt-3 pl-0">
+            <h5 class="mb-3"><strong>Dashboard</strong></h5>
+
+            <!--Dashboard widget-->
+            <div class="mt-1 mb-3 button-container">
+                <div class="row pl-0">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                        <div class="bg-white border shadow">
+                            <div class="p-2 text-center">
+                                <h5 class="mb-0 mt-2 text-theme"><small><strong>CITAS PROMEDIO DIA</strong></small></h5>
+                                <h1 id="txtCitas">0</h1>
+                            </div>
+                            <div class="align-bottom">
+                                <span id="incomeBar"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                        <div class="bg-white border shadow">
+                            <div class="p-2 text-center">
+                                <h5 class="mb-0 mt-2 text-danger"><small><strong>CITAS PROMEDIO MES</strong></small></h5>
+                                <h1 id="txtCitasMen">0</h1>
+                            </div>
+                            <div class="align-bottom">
+                                <span id="expensesBar"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                        <div class="bg-white border shadow">
+                            <div class="p-2 text-center">
+                                <h5 class="mb-0 mt-2 text-green"><small><strong>CITAS ANULADAS MES</strong></small></h5>
+                                <h1>20</h1>
+                            </div>
+                            <div class="align-bottom">
+                                <span id="profitBar"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/Dashboard widget-->
+            <div class="mt-1 mb-3 button-container">
+                <div class="row pl-0">
+                    <!--Dashboard widget sales analytics-->
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-12 mb-3">
+                        <div class="border shadow p-3">
+                            <div id="main" style="height: 300px; width:100%;"></div>
+                        </div>
+                    </div>
+                    <!--/Dashboard widget sales analytics-->
+                    <!--Dashboard widget guage-->
+                    <div class="col-lg-4 col-md-8 col-sm-12 col-12 mb-3">
+                        <div class="border shadow p-3">
+                            <div id="main2" style="height: 300px; width:100%;"></div>
+                        </div>
+                    </div>
+                    <!--/Dashboard widget guage-->
+                </div>
+            </div>
+
+            <div class="mt-1 mb-3 button-container">
+                <div class="row pl-0">
+                    <!--Dashboard widget sales analytics-->
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-12 mb-3">
+                        <div class="border shadow p-3">
+                            <div id="mainEspe" style="height: 300px; width:100%;"></div>
+                        </div>
+                    </div>
+                    <!--/Dashboard widget sales analytics-->
+                    <!--Dashboard widget guage-->
+                    <div class="col-lg-4 col-md-8 col-sm-12 col-12 mb-3">
+                        <div class="border shadow p-3">
+                            <div id="mainEspe2" style="height: 300px; width:100%;"></div>
+                        </div>
+                    </div>
+                    <!--/Dashboard widget guage-->
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/otros")
+
+    <script src="@Url.Content("~/Scripts/jquery.flot.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.flot.pie.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.flot.categories.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.flot.stack.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/sparkline.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/raphael.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/morris.js")"></script>
+    <script src="@Url.Content("~/Scripts/chart.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/charts/echarts.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/chartist.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/chartist-data.js")"></script>
+    <script src="@Url.Content("~/Scripts/demo.js")"></script>
+    <script src="@Url.Content("~/Scripts/custom.js")"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "Post",
+                url: "@Url.Action("CitasMensuales", "Appointment")",
+                success: function (data) {
+                    // Widget One
+                    if ($("#main").length) {
+                        var myChart = echarts.init(document.getElementById('main'));
+
+                        // specify chart configuration item and data
+                        var xAxisData = [];
+                        var data1 = [];
+                        for (var k = 1; k <= 12; k++) {
+                            xAxisData.push(k);
+                            $.each(data.data, function (i, item) {
+                                if (item.mes == k) {
+                                    data1.push(item.valor);
+                                }
+                            });
+                        }
+
+                        var promedio = 0;
+                        var count = data1.length;
+                        promedio = data1.reduce((previous, current) => current += previous);
+                        promedio /= count;
+
+                        $("#txtCitasMen").html(promedio.toFixed(0));
+
+                        if ($("#expensesBar").length) {
+                            $('#expensesBar').sparkline(data1, {
+                                type: 'bar',
+                                barColor: ['#EA5941'],
+                                barWidth: '10px',
+                                height: '60px',
+                                disableTooltips: true,
+                            });
+                        }
+
+                        option = {
+                            title: {
+                                text: 'Citas Mensual',
+                                textStyle: {
+                                    fontFamily: 'Quicksand',
+                                },
+                            },
+                            textStyle: {
+                                fontFamily: 'Quicksand',
+                            },
+                            toolbox: {
+                                // y: 'bottom',
+                                feature: {
+                                    magicType: {
+                                        type: ['stack', 'tiled'],
+                                        title: '',
+                                    },
+                                    dataView: {
+                                        title: 'Data view',
+                                    },
+                                    saveAsImage: {
+                                        pixelRatio: 2,
+                                        title: 'Save',
+                                    }
+                                }
+                            },
+                            tooltip: {},
+                            xAxis: {
+                                data: xAxisData,
+                                silent: false,
+                                splitLine: {
+                                    show: false
+                                }
+                            },
+                            yAxis: {
+                            },
+                            series: [{
+                                name: 'Pacientes',
+                                type: 'bar',
+                                data: data1,
+                                animationDelay: function (idx) {
+                                    return idx * 10;
+                                }
+                            }],
+                            animationEasing: 'elasticOut',
+                            animationDelayUpdate: function (idx) {
+                                return idx * 5;
+                            }
+                        };
+
+                        // use configuration item and data specified to show chart
+                        myChart.setOption(option);
+                        //Widget one
+                    }
+                }
+            });
+
+            $.ajax({
+                type: "Post",
+                url: "@Url.Action("CitasEspecialidad", "Appointment")",
+                success: function (data) {
+                    // Widget One
+                    if ($("#mainEspe").length) {
+                        var myChart = echarts.init(document.getElementById('mainEspe'));
+
+                        // specify chart configuration item and data
+                        var xAxisData = [];
+                        var data1 = [];
+
+                        $.each(data.data, function (i, item) {
+                            xAxisData.push(item.cate);
+                            data1.push(item.valor);
+                        });
+
+                        option = {
+                            title: {
+                                text: 'Citas Especialidad',
+                                textStyle: {
+                                    fontFamily: 'Quicksand',
+                                },
+                            },
+                            textStyle: {
+                                fontFamily: 'Quicksand',
+                            },
+                            toolbox: {
+                                // y: 'bottom',
+                                feature: {
+                                    magicType: {
+                                        type: ['stack', 'tiled'],
+                                        title: '',
+                                    },
+                                    dataView: {
+                                        title: 'Data view',
+                                    },
+                                    saveAsImage: {
+                                        pixelRatio: 2,
+                                        title: 'Save',
+                                    }
+                                }
+                            },
+                            tooltip: {},
+                            xAxis: {
+                                data: xAxisData,
+                                silent: false,
+                                splitLine: {
+                                    show: false
+                                }
+                            },
+                            yAxis: {
+                            },
+                            series: [{
+                                name: 'Pacientes',
+                                type: 'bar',
+                                data: data1,
+                                animationDelay: function (idx) {
+                                    return idx * 10;
+                                }
+                            }],
+                            animationEasing: 'elasticOut',
+                            animationDelayUpdate: function (idx) {
+                                return idx * 5;
+                            }
+                        };
+
+                        // use configuration item and data specified to show chart
+                        myChart.setOption(option);
+                        //Widget one
+                    }
+                }
+            });
+
+            $.ajax({
+                type: "Post",
+                url: "@Url.Action("CitasDiario", "Appointment")",
+                success: function (data) {
+                    var data1 = [];
+
+                    $.each(data.data, function (i, item) {
+                        data1.push(item.valor);
+                    });
+
+                    var promedio = 0;
+                    var count = data1.length;
+                    promedio = data1.reduce((previous, current) => current += previous);
+                    promedio /= count;
+
+                    $("#txtCitas").html(promedio.toFixed(0));
+
+                    if ($("#incomeBar").length) {
+                        $('#incomeBar').sparkline(data1, {
+                            type: 'bar',
+                            barColor: ['#23649E'],
+                            barWidth: '10px',
+                            height: '60px',
+                            disableTooltips: true,
+                        });
+                    }
+
+                    //Income bar chart dashboard widget
+                    if ($("#incomeBarCol").length) {
+                        $('#incomeBarCol').sparkline(data1, {
+                            type: 'bar',
+                            barColor: ['#efefef'],
+                            barWidth: '10px',
+                            height: '60px',
+                            disableTooltips: true,
+                        });
+                    }
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="doctore">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="idEspecialidad" Type="Int32" />
+    <NavigationProperty Name="especialidade" Relationship="Self.FK__doctores__idEspe__49C3F6B7" FromRole="doctores" ToRole="especialidades" />
+    <NavigationProperty Name="horarios" Relationship="Model.FK__horarios__id__6383C8BA" FromRole="doctore" ToRole="horario" />
+    <NavigationProperty Name="citas" Relationship="Model.FK__citas__idDoctor__7C4F7684" FromRole="doctore" ToRole="cita" />
+    <Property Name="nombres" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="especialidade">
+    <Key>
+      <PropertyRef Name="idEspecialidad" />
+    </Key>
+    <Property Name="idEspecialidad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <NavigationProperty Name="doctores" Relationship="Self.FK__doctores__idEspe__49C3F6B7" FromRole="especialidades" ToRole="doctores" />
+  </EntityType>
+  <Association Name="FK__doctores__idEspe__49C3F6B7">
+    <End Role="especialidades" Type="Self.especialidade" Multiplicity="0..1" />
+    <End Role="doctores" Type="Self.doctore" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="especialidades">
+        <PropertyRef Name="idEspecialidad" />
+      </Principal>
+      <Dependent Role="doctores">
+        <PropertyRef Name="idEspecialidad" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="doctores" EntityType="Self.doctore" />
+    <EntitySet Name="especialidades" EntityType="Self.especialidade" />
+    <AssociationSet Name="FK__doctores__idEspe__49C3F6B7" Association="Self.FK__doctores__idEspe__49C3F6B7">
+      <End Role="especialidades" EntitySet="especialidades" />
+      <End Role="doctores" EntitySet="doctores" />
+    </AssociationSet>
+    <EntitySet Name="horas" EntityType="Model.hora" />
+    <EntitySet Name="horarios" EntityType="Model.horario" />
+    <AssociationSet Name="FK__horarios__id__6383C8BA" Association="Model.FK__horarios__id__6383C8BA">
+      <End Role="doctore" EntitySet="doctores" />
+      <End Role="horario" EntitySet="horarios" />
+    </AssociationSet>
+    <AssociationSet Name="FK__horarios__idHora__6477ECF3" Association="Model.FK__horarios__idHora__6477ECF3">
+      <End Role="hora" EntitySet="horas" />
+      <End Role="horario" EntitySet="horarios" />
+    </AssociationSet>
+    <EntitySet Name="citas" EntityType="Model.cita" />
+    <EntitySet Name="pacientes" EntityType="Model.paciente" />
+    <EntitySet Name="salas" EntityType="Model.sala" />
+    <EntitySet Name="tipocitas" EntityType="Model.tipocita" />
+    <AssociationSet Name="FK__citas__idDoctor__7C4F7684" Association="Model.FK__citas__idDoctor__7C4F7684">
+      <End Role="doctore" EntitySet="doctores" />
+      <End Role="cita" EntitySet="citas" />
+    </AssociationSet>
+    <AssociationSet Name="FK__citas__idPacient__7B5B524B" Association="Model.FK__citas__idPacient__7B5B524B">
+      <End Role="paciente" EntitySet="pacientes" />
+      <End Role="cita" EntitySet="citas" />
+    </AssociationSet>
+    <AssociationSet Name="FK__citas__idSala__7E37BEF6" Association="Model.FK__citas__idSala__7E37BEF6">
+      <End Role="sala" EntitySet="salas" />
+      <End Role="cita" EntitySet="citas" />
+    </AssociationSet>
+    <AssociationSet Name="FK__citas__idTipoCit__7D439ABD" Association="Model.FK__citas__idTipoCit__7D439ABD">
+      <End Role="tipocita" EntitySet="tipocitas" />
+      <End Role="cita" EntitySet="citas" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="hora">
+    <Key>
+      <PropertyRef Name="idHora" />
+    </Key>
+    <Property Name="idHora" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="desHora" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="horarios" Relationship="Model.FK__horarios__idHora__6477ECF3" FromRole="hora" ToRole="horario" />
+  </EntityType>
+  <EntityType Name="horario">
+    <Key>
+      <PropertyRef Name="idHorario" />
+    </Key>
+    <Property Name="idHorario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="idHora" Type="Int32" />
+    <Property Name="lunes" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="martes" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="miercoles" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="jueves" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="viernes" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="sabado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <NavigationProperty Name="doctore" Relationship="Model.FK__horarios__id__6383C8BA" FromRole="horario" ToRole="doctore" />
+    <NavigationProperty Name="hora" Relationship="Model.FK__horarios__idHora__6477ECF3" FromRole="horario" ToRole="hora" />
+  </EntityType>
+  <Association Name="FK__horarios__id__6383C8BA">
+    <End Type="Model.doctore" Role="doctore" Multiplicity="0..1" />
+    <End Type="Model.horario" Role="horario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="doctore">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="horario">
+        <PropertyRef Name="id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__horarios__idHora__6477ECF3">
+    <End Type="Model.hora" Role="hora" Multiplicity="0..1" />
+    <End Type="Model.horario" Role="horario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="hora">
+        <PropertyRef Name="idHora" />
+      </Principal>
+      <Dependent Role="horario">
+        <PropertyRef Name="idHora" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="cita">
+    <Key>
+      <PropertyRef Name="idCita" />
+    </Key>
+    <Property Name="idCita" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idPaciente" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="idDoctor" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="fecha" Type="DateTime" Precision="3" />
+    <Property Name="idTipoCita" Type="Int32" />
+    <Property Name="aviso" Type="Int32" />
+    <Property Name="idSala" Type="Int32" />
+    <Property Name="estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <NavigationProperty Name="doctore" Relationship="Model.FK__citas__idDoctor__7C4F7684" FromRole="cita" ToRole="doctore" />
+    <NavigationProperty Name="paciente" Relationship="Model.FK__citas__idPacient__7B5B524B" FromRole="cita" ToRole="paciente" />
+    <NavigationProperty Name="sala" Relationship="Model.FK__citas__idSala__7E37BEF6" FromRole="cita" ToRole="sala" />
+    <NavigationProperty Name="tipocita" Relationship="Model.FK__citas__idTipoCit__7D439ABD" FromRole="cita" ToRole="tipocita" />
+  </EntityType>
+  <EntityType Name="paciente">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="fecha_nacimiento" Type="DateTime" Precision="3" />
+    <Property Name="dni" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="citas" Relationship="Model.FK__citas__idPacient__7B5B524B" FromRole="paciente" ToRole="cita" />
+    <Property Name="nombres" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="sala">
+    <Key>
+      <PropertyRef Name="idSala" />
+    </Key>
+    <Property Name="idSala" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="descripcion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="desurl" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="codigo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="clave" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <NavigationProperty Name="citas" Relationship="Model.FK__citas__idSala__7E37BEF6" FromRole="sala" ToRole="cita" />
+  </EntityType>
+  <EntityType Name="tipocita">
+    <Key>
+      <PropertyRef Name="idTipoCita" />
+    </Key>
+    <Property Name="idTipoCita" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="descripcion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="citas" Relationship="Model.FK__citas__idTipoCit__7D439ABD" FromRole="tipocita" ToRole="cita" />
+  </EntityType>
+  <Association Name="FK__citas__idDoctor__7C4F7684">
+    <End Type="Model.doctore" Role="doctore" Multiplicity="0..1" />
+    <End Type="Model.cita" Role="cita" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="doctore">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="cita">
+        <PropertyRef Name="idDoctor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__citas__idPacient__7B5B524B">
+    <End Type="Model.paciente" Role="paciente" Multiplicity="0..1" />
+    <End Type="Model.cita" Role="cita" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="paciente">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="cita">
+        <PropertyRef Name="idPaciente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__citas__idSala__7E37BEF6">
+    <End Type="Model.sala" Role="sala" Multiplicity="0..1" />
+    <End Type="Model.cita" Role="cita" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="sala">
+        <PropertyRef Name="idSala" />
+      </Principal>
+      <Dependent Role="cita">
+        <PropertyRef Name="idSala" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__citas__idTipoCit__7D439ABD">
+    <End Type="Model.tipocita" Role="tipocita" Multiplicity="0..1" />
+    <End Type="Model.cita" Role="cita" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tipocita">
+        <PropertyRef Name="idTipoCita" />
+      </Principal>
+      <Dependent Role="cita">
+        <PropertyRef Name="idTipoCita" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

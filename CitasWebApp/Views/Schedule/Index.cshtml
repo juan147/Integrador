@@ -1,0 +1,98 @@
+﻿@using CitasWebApp.Models
+@model dynamic
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h5 class="mb-0"><strong>Horario</strong></h5>
+
+<div class="row mt-3">
+    <div class="col-sm-12">
+        <div class="mt-1 mb-3 p-3 button-container bg-white border shadow-sm">
+            <form class="form-horizontal">
+                <div class="form-group row">
+                    <label for="Medico" class="control-label col-sm-1">Medico</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" id="exampleFormControlSelect1">
+                            <option>Seleccionar ...</option>
+                            @foreach (var x in Model.doctores)
+                            {
+                                <option value="@x.Id">@(x.nombres + " " + x.apellidos)</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-info"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+
+
+        </div>
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="customCheck1">
+        </div>
+        <!--Datatable-->
+        <div class="mt-1 mb-3 p-3 button-container bg-white border shadow-sm">
+            <h6 class="mb-2">Seleccionar</h6>
+
+            <table class="table table-bordered" id="project_table">
+                <thead>
+                    <tr>
+                        <th>Hora</th>
+                        <th>Lunes</th>
+                        <th>Martes</th>
+                        <th>Miercoles</th>
+                        <th>Jueves</th>
+                        <th>Viernes</th>
+                        <th>Sabado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var x in Model.horas)
+                    {
+                    <tr>
+                        <td>@x.desHora</td>
+                        <td><input type="checkbox" id="lun" class="js-single" /></td>
+                        <td><input type="checkbox" id="mar" class="js-single" /></td>
+                        <td><input type="checkbox" id="mie" class="js-single" /></td>
+                        <td><input type="checkbox" id="jue" class="js-single" /></td>
+                        <td><input type="checkbox" id="vie" class="js-single" /></td>
+                        <td><input type="checkbox" id="sab" class="js-single" /></td>
+                        <td ><input type="checkbox" id="idHora" class="js-single" />@(x.idHora)</td>
+                    </tr>
+                    }
+            </table>
+
+            <button type="button" id="btnGrabar" class="btn btn-success btn-round">Grabar</button>
+        </div>
+        <!--/Varying modal content-->
+
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+
+            $("#btnGrabar").click(function () {
+                $('#project_table > tbody  > tr').each(function () {
+
+
+                    $.ajax({
+                        type: "Post", 
+                        url: "@Url.Action("Modificar", "Schedule")", 
+                        data: { Name: nombre, LastName: apellido, Email: mail, Password: clave, Phone: celular, Id: userId },
+                        success: function (datos) { 
+
+                        }
+                    });
+
+                });
+            });
+
+
+        }
+    </script>
+}

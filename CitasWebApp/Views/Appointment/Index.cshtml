@@ -1,0 +1,146 @@
+﻿@using CitasWebApp.Models
+@model dynamic
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link href="@Url.Content("~/Content/fullcalender/fullcalendar.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/fullcalender/fullcalendar.print.min.css")" rel="stylesheet" type="text/css" media="print" />
+    <link href="@Url.Content("~/Content/fullcalender/bootstrap_calendar.css")" rel="stylesheet" type="text/css" />
+}
+
+<h5 class="mb-0"><strong>Citas</strong></h5>
+
+<div class="row mt-3">
+    <div class="col-sm-12">
+
+        <div id="pnDoctores" class="mt-4 mb-4 p-4 button-container bg-white border shadow-sm lh-sm">
+
+            <div class="text-center">
+                <h3>Start up your Bussiness today</h3>
+                <p>Choose a plan that suits you the best. If you are not fully satisfied, we offer 30-day money-back guarantee no questions asked!!</p>
+            </div>
+
+            <div class="row">
+                @foreach (var x in Model.doctores)
+                {
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <div class="card">
+                            <img class="card-img-top" src="~/img/doctor/1.jpg" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">@(x.nombres + " " + x.apellidos)</h5>
+                                <a href="#doctor" data-id="@x.Id" class="btn btn-theme text-white">Seleccionar</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+
+
+        <!--Default breadcrumb-->
+        <div id="pnMedico" class="mt-1 mb-3 p-3 button-container bg-white border shadow-sm" style="display: none">
+            <form class="form-horizontal">
+                <div class="form-group row">
+                    <label for="Medico" class="control-label col-sm-1">Medico</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" id="cboMedicos">
+                            <option>Seleccionar ...</option>
+                            @foreach (var x in Model.doctores)
+                            {
+                                <option value="@x.Id">@(x.nombres + " " + x.apellidos)</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-info"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="pnCita" class="mt-1 mb-3 p-3 button-container bg-white border shadow-sm lh-sm" style="display: none">
+            <div class="text-center">
+                <h3>Doctor</h3>
+            </div>
+            <form class="form-horizontal">
+                <div class="form-group row">
+                    <label for="Fecha" class="control-label col-sm-1">Fecha</label>
+                    <div class="col-sm-2">
+                        <input type="date" class="form-control" id="input-5" placeholder="11/11/2019" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="Turno" class="control-label col-sm-1">Turno</label>
+                    <div class="col-lg-4 col-md-4 col-sm-4 card-pro mb-3">
+                        <div class="card shadow">
+                            <div class="card-body">
+                                <h5 class="card-title bc-header">Contacts</h5>
+
+                                <div class="media border-top border-bottom pt-1">
+                                    <img class="align-self-center mr-2 rounded-circle mb-1" src="assets/img/client-img2.png" width="40px" height="40px" alt="Generic placeholder image">
+                                    <div class="media-body">
+                                        <p class="bc-description mt-2">Sarah Reeves <span class="pull-right"><i class="fa fa-pencil"></i></span></p>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+
+                                <div class="media border-bottom pt-1">
+                                    <img class="align-self-center mr-2 rounded-circle mb-1" src="assets/img/client-img3.png" width="40px" height="40px" alt="Generic placeholder image">
+                                    <div class="media-body">
+                                        <p class="bc-description mt-2">Hermoine Potter <span class="pull-right"><i class="fa fa-pencil"></i></span></p>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+
+                                <div class="media border-bottom pt-1">
+                                    <img class="align-self-center mr-2 rounded-circle mb-1" src="assets/img/client-img4.png" width="40px" height="40px" alt="Generic placeholder image">
+                                    <div class="media-body">
+                                        <p class="bc-description mt-2">Max Longbottom <span class="pull-right"><i class="fa fa-pencil"></i></span></p>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!--/Default breadcrumb-->
+        <!--Full Calendar-->
+        <div id="pnCalendario" class="mt-1 mb-3 p-3 button-container bg-white border shadow-sm lh-sm" style="display: none">
+            <div class="text-center">
+                <h3>Doctor</h3>
+            </div>
+            <div class="email-msg">
+
+                <div class="table-responsive" id="calendarFull"></div>
+
+            </div>
+        </div>
+        <!--/Email messages-->
+
+    </div>
+</div>
+
+@section scripts {
+    <script src="@Url.Content("~/Scripts/fullcalender/moment.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/fullcalender/fullcalendar.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/fullcalender/full-calendar.js")"></script>
+    <script src="@Url.Content("~/Scripts/fullcalender/locale-all.js")"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('a[href="#doctor"]').click(function () {
+                var idDoctor = $(this).attr("data-id");
+                $("#pnDoctores").hide();
+                $("#pnCita").show();
+            });
+        });
+    </script>
+}
+
