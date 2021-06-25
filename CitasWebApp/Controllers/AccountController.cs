@@ -58,6 +58,7 @@ namespace CitasWebApp.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+            ViewBag.status = "ok";
             return View();
         }
 

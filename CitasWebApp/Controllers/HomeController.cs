@@ -11,12 +11,20 @@ namespace CitasWebApp.Controllers
     {
         public ActionResult Index() 
         {
-            if (Session["TipoUser"]==null)
+            try
+            {
+                if (Session["TipoUser"] == null)
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
+                return View();
+            }
+            catch
             {
                 return RedirectToAction("Login", "Account");
             }
-
-            return View();
+            
         }
 
         public ActionResult About()

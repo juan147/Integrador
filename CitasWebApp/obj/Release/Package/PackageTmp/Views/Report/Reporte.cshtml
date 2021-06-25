@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewBag.Title = "Reporte";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h5 class="mb-0"><strong>Reportes</strong></h5>
+
+<!--Tags-->
+<div class="mt-1 mb-3 p-3 button-container bg-white border shadow-sm">
+    <form class="form-horizontal mt-4 mb-5">
+        <div class="form-group row">
+            <label for="exampleFormControlSelect1" class="control-label col-sm-1">Tipo de Reporte</label>
+            <div class="col-sm-4">
+                <select class="form-control" id="cboReporte">
+                    <option value="0">Seleccionar ...</option>
+                    <option value="1">Citas por Paciente</option>
+                    <option value="2">Citas por Medico</option>
+                    <option value="3">Citas por Especialidad</option>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <input type="date" class="form-control" id="fecini" placeholder="11/11/2019" />
+            </div>
+            <div class="col-sm-2">
+                <input type="date" class="form-control" id="fecfin" placeholder="11/11/2019" />
+            </div>
+            <div class="col-sm-1">
+                <button type="button" class="btn btn-info" id="btnpdf"><i class="fa fa-file-pdf-o"></i>  PDF</button>
+            </div>
+            <div class="col-sm-1">
+                <button type="button" class="btn btn-success" id="btnexcel"><i class="fa fa-file-excel-o"></i>  Excel</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section scripts {
+
+    <script>
+        $(document).ready(function () {
+            var now = new Date();
+            var month = (now.getMonth() + 1);
+            var day = now.getDate();
+            if (month < 10)
+                month = "0" + month;
+            if (day < 10)
+                day = "0" + day;
+            var today = now.getFullYear() + '-' + month + '-' + day;
+            $("#fecini").val(today);
+            $("#fecfin").val(today);
+            
+
+            $("#btnpdf").click(function () {
+                var fecha1 = $("#fecini").val();
+                var fecha2 = $("#fecfin").val();
+                var tipoReporte = $("#cboReporte").val();
+                var url = "";
+
+                if (tipoReporte > 0) {
+                    url = "@(Url.Action("ReportePdf", "Report"))";
+                } else {
+                    return;
+                }
+
+                url = url + "?fecha1=" + fecha1 + "&fecha2=" + fecha2 + "&tipo=" + tipoReporte;
+                window.open(url);
+            });
+
+            $("#btnexcel").click(function () {
+                 var fecha1 = $("#fecini").val();
+                var fecha2 = $("#fecfin").val();
+                var tipoReporte = $("#cboReporte").val();
+                var url = "";
+
+                if (tipoReporte > 0) {
+                    url="@(Url.Action("ReporteExcel", "Report"))";
+                } else {
+                    return;
+                }
+
+                url = url + "?fecha1=" + fecha1 + "&fecha2=" + fecha2 + "&tipo=" + tipoReporte;
+                window.open(url);
+            });
+
+        });
+    </script>
+}
