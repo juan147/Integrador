@@ -19,19 +19,20 @@
         <div id="pnDoctores" class="mt-4 mb-4 p-4 button-container bg-white border shadow-sm lh-sm">
 
             <div class="text-center">
-                <h3>Start up your Bussiness today</h3>
-                <p>Choose a plan that suits you the best. If you are not fully satisfied, we offer 30-day money-back guarantee no questions asked!!</p>
+                <h3>Selecciona el Medico de tu preferencia</h3>
             </div>
 
             <div class="row">
+                @{int num = 0; }
                 @foreach (var x in Model.doctores)
                 {
+                    num++;
                     <div class="col-md-3 col-sm-6 mb-3">
                         <div class="card">
-                            <img class="card-img-top" src="~/img/doctor/1.jpg" alt="Card image cap">
+                            <img class="card-img-top" src="~/img/doctor/@(num).jpg" alt="Card image cap">
                             <div class="card-body">
                                 <h5 class="card-title">@(x.nombres + " " + x.apellidos)</h5>
-                                <a href="#doctor" data-id="@x.Id" class="btn btn-theme text-white">Seleccionar</a>
+                                <a href="#doctor" data-id="@x.Id" data-doctor="@(x.nombres + " " + x.apellidos)" class="btn btn-theme text-white">Seleccionar</a>
                             </div>
                         </div>
                     </div>
@@ -63,48 +64,79 @@
         </div>
         <div id="pnCita" class="mt-1 mb-3 p-3 button-container bg-white border shadow-sm lh-sm" style="display: none">
             <div class="text-center">
-                <h3>Doctor</h3>
+                <h3 id="txtSelDoc">Doctor</h3>
             </div>
             <form class="form-horizontal">
                 <div class="form-group row">
                     <label for="Fecha" class="control-label col-sm-1">Fecha</label>
                     <div class="col-sm-2">
-                        <input type="date" class="form-control" id="input-5" placeholder="11/11/2019" />
+                        <input type="date" class="form-control" id="input-fecha" placeholder="11/11/2019" />
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="Turno" class="control-label col-sm-1">Turno</label>
-                    <div class="col-lg-4 col-md-4 col-sm-4 card-pro mb-3">
-                        <div class="card shadow">
-                            <div class="card-body">
-                                <h5 class="card-title bc-header">Contacts</h5>
+                    <label for="Medico" class="control-label col-sm-1">Turno</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" id="cbTurno">
+                            <option>Seleccionar ...</option>
+                            <option>07:00 - 07:30</option>
+                            <option>07:30 - 08:00</option>
+                            <option>08:00 - 08:30</option>
+                            <option>09:30 - 10:00</option>
+                            <option>10:00 - 10:30</option>
+                            <option>10:30 - 11:00</option>
+                            <option>11:00 - 11:30</option>
+                            <option>11:30 - 12:00</option>
+                            <option>12:00 - 12:30</option>
+                            <option>12:30 - 12:00</option>
+                            <option>12:00 - 12:30</option>
+                        </select>
+                    </div>
+                </div>
 
-                                <div class="media border-top border-bottom pt-1">
-                                    <img class="align-self-center mr-2 rounded-circle mb-1" src="assets/img/client-img2.png" width="40px" height="40px" alt="Generic placeholder image">
-                                    <div class="media-body">
-                                        <p class="bc-description mt-2">Sarah Reeves <span class="pull-right"><i class="fa fa-pencil"></i></span></p>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </div>
+                <div class="form-group row">
+                    <label for="Medico" class="control-label col-sm-1">Tipo</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" id="cboTipo">
+                            <option>Seleccionar ...</option>
+                            <option>Presencial</option>
+                            <option>Remoto</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="button" id="btnGrabarCita" class="btn btn-success btn-round">Grabar</button>
+            </form>
+        </div>
 
-                                <div class="media border-bottom pt-1">
-                                    <img class="align-self-center mr-2 rounded-circle mb-1" src="assets/img/client-img3.png" width="40px" height="40px" alt="Generic placeholder image">
-                                    <div class="media-body">
-                                        <p class="bc-description mt-2">Hermoine Potter <span class="pull-right"><i class="fa fa-pencil"></i></span></p>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </div>
+        <div id="pnResCita" class="mt-1 mb-3 p-3 button-container bg-white border shadow-sm lh-sm" style="display: none">
+            <div class="text-center">
+                <h3 id="txtSelDoc">Felicitaciones Cita Generada</h3>
+            </div>
+            <form class="form-horizontal">
+                <div class="form-group row">
+                    <label for="Fecha" class="control-label col-sm-1">Doctor</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="txtResDoc" disabled />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="Fecha" class="control-label col-sm-1">Fecha</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="txtResFecha" disabled />
+                    </div>
+                </div>
 
-                                <div class="media border-bottom pt-1">
-                                    <img class="align-self-center mr-2 rounded-circle mb-1" src="assets/img/client-img4.png" width="40px" height="40px" alt="Generic placeholder image">
-                                    <div class="media-body">
-                                        <p class="bc-description mt-2">Max Longbottom <span class="pull-right"><i class="fa fa-pencil"></i></span></p>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="form-group row">
+                    <label for="Fecha" class="control-label col-sm-1">Turno</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="txtResTurno" disabled />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="Fecha" class="control-label col-sm-1">Tipo</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="txtResTipo" disabled />
                     </div>
                 </div>
             </form>
@@ -137,9 +169,22 @@
         $(document).ready(function () {
             $('a[href="#doctor"]').click(function () {
                 var idDoctor = $(this).attr("data-id");
+                var desDoctor = $(this).attr("data-doctor");
+                $("#txtSelDoc").html("Doctor: " + desDoctor);
                 $("#pnDoctores").hide();
                 $("#pnCita").show();
             });
+
+            $("#btnGrabarCita").click(function () {
+                $("#pnCita").hide();
+
+                $("#txtResDoc").val($("#txtSelDoc").html());
+                $("#txtResFecha").val($("#input-fecha").val());
+                $("#txtResTurno").val($("#cbTurno").val());
+                $("#txtResTipo").val($("#cboTipo").val());
+                $("#pnResCita").show();
+            }
+            );
         });
     </script>
 }
