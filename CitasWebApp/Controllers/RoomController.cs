@@ -10,7 +10,7 @@ namespace CitasWebApp.Controllers
     [Authorize]
     public class RoomController : Controller
     {
-        sala objSala = new sala();
+        readonly  sala objSala = new sala();
 
         // GET: Specialty
         public ActionResult Index()

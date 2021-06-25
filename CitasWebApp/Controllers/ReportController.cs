@@ -17,7 +17,7 @@ namespace CitasWebApp.Controllers
     [Authorize]
     public class ReportController : Controller
     {
-        cita objCita = new cita();
+        readonly cita objCita = new cita();
 
         // GET: Report
         public ActionResult Index()

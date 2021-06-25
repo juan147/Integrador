@@ -12,7 +12,7 @@ namespace CitasWebApp.Controllers
     [Authorize]
     public class SpecialtyController : Controller
     {
-        especialidade objEspecialidad = new especialidade();
+        readonly  especialidade objEspecialidad = new especialidade();
 
         // GET: Specialty
         public ActionResult Index()

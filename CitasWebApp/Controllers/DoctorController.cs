@@ -16,8 +16,6 @@ namespace CitasWebApp.Controllers
     {
         private ApplicationUserManager _userManager;
         private ApplicationSignInManager _signInManager;
-        private doctore _doctor;
-        private especialidade _especialidad;
 
         public ApplicationUserManager UserManager
         {
@@ -55,7 +53,8 @@ namespace CitasWebApp.Controllers
         [HttpGet]
         public ActionResult Register(string id)
         {
-            _especialidad = new especialidade();
+                     doctore _doctor;
+         especialidade  _especialidad = new especialidade();
             _doctor = new doctore();
             dynamic mymodel = new ExpandoObject();
             ApplicationUser user = new ApplicationUser();
@@ -124,7 +123,7 @@ namespace CitasWebApp.Controllers
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                         var _user = await UserManager.FindByNameAsync(model.Email);
-                        _doctor = new doctore();
+                    doctore _doctor = new doctore();
                         _doctor.id = _user.Id;
                         _doctor.idEspecialidad = model.IdEspecialidad;
                         _doctor.CrearDoctor(_doctor);

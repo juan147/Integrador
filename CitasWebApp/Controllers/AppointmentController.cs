@@ -15,7 +15,7 @@ namespace CitasWebApp.Controllers
     public class AppointmentController : Controller
     {
         private ApplicationUserManager _userManager;
-        private cita objCita = new cita();
+        private readonly cita objCita = new cita();
 
         public ApplicationUserManager UserManager
         {

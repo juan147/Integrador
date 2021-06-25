@@ -13,8 +13,8 @@ namespace CitasWebApp.Controllers
     [Authorize]
     public class ScheduleController : Controller
     {
-        hora _hora= new hora();
-        horario _horario = new horario();
+        readonly  hora _hora = new hora();
+        readonly  horario _horario = new horario();
         private ApplicationUserManager _userManager;
 
         public ApplicationUserManager UserManager
