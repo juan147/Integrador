@@ -50,7 +50,7 @@ namespace CitasWebApp.Models
                 db.SaveChanges();
                 respuesta = true;
             }
-            catch
+            catch(Exception ex)
             {
 
             }
