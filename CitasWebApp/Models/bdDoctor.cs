@@ -12,8 +12,7 @@ namespace CitasWebApp.Models
         public bool CrearDoctor(doctore obj)
         {
             bool respuesta = false;
-            try
-            {
+
                 Entities db = new Entities();
                 doctore vdoctore = new doctore()
                 {
@@ -23,11 +22,7 @@ namespace CitasWebApp.Models
                 db.doctores.Add(vdoctore);
                 db.SaveChanges();
                 respuesta = true;
-            }
-            catch
-            {
-
-            }
+ 
 
             return respuesta;
         }

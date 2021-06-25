@@ -20,19 +20,13 @@ namespace CitasWebApp.Models
         public bool ModificarSala(sala obj)
         {
             bool respuesta = false;
-            try
-            {
+
                 Entities db = new Entities();
                 sala vsala = db.salas.Find(obj.idSala);
                 vsala.descripcion = obj.descripcion;
                 db.Entry(vsala).State = EntityState.Modified;
                 db.SaveChanges();
                 respuesta = true;
-            }
-            catch
-            {
-
-            }
 
             return respuesta;
         }
@@ -40,8 +34,7 @@ namespace CitasWebApp.Models
         public bool CrearSala(sala obj)
         {
             bool respuesta = false;
-            try
-            {
+
                 Entities db = new Entities();
                 sala vsala = new sala()
                 {
@@ -51,11 +44,6 @@ namespace CitasWebApp.Models
                 db.salas.Add(vsala);
                 db.SaveChanges();
                 respuesta = true;
-            }
-            catch
-            {
-
-            }
 
             return respuesta;
         }
@@ -63,19 +51,14 @@ namespace CitasWebApp.Models
         public bool DeshabilitarSala(sala obj)
         {
             bool respuesta = false;
-            try
-            {
+   
                 Entities db = new Entities();
                 sala vsala = db.salas.Find(obj.idSala);
                 vsala.estado = obj.estado;
                 db.Entry(vsala).State = EntityState.Modified;
                 db.SaveChanges();
                 respuesta = true;
-            }
-            catch
-            {
 
-            }
 
             return respuesta;
         }

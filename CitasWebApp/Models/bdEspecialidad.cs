@@ -38,8 +38,7 @@ namespace CitasWebApp.Models
         public bool CrearEspecialidad(especialidade obj)
         {
             bool respuesta = false;
-            try
-            {
+
                 Entities db = new Entities();
                 especialidade vespecialidad = new especialidade()
                 {
@@ -49,11 +48,7 @@ namespace CitasWebApp.Models
                 db.especialidades.Add(vespecialidad);
                 db.SaveChanges();
                 respuesta = true;
-            }
-            catch(Exception ex)
-            {
 
-            }
 
             return respuesta;
         }
@@ -61,19 +56,14 @@ namespace CitasWebApp.Models
         public bool DeshabilitarEspecialidad(especialidade obj)
         {
             bool respuesta = false;
-            try
-            {
+
                 Entities db = new Entities();
                 especialidade vespecialidad = db.especialidades.Find(obj.idEspecialidad);
                 vespecialidad.estado = obj.estado;
                 db.Entry(vespecialidad).State = EntityState.Modified;
                 db.SaveChanges();
                 respuesta = true;
-            }
-            catch
-            {
 
-            }
 
             return respuesta;
         }
