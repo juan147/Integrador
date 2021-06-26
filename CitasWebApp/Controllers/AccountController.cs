@@ -301,8 +301,6 @@ namespace CitasWebApp.Controllers
 
         #region Aplicaciones auxiliares
         // Se usa para la protección XSRF al agregar inicios de sesión externos
-        private const string XsrfKey = "XsrfId";
-
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
